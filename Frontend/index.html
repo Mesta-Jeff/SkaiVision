@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <title id="pageTitle">Skai Vision Flow | The Universal School Manager</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <meta name="keywords"
+    content="bootstrap, school admin template, school theme, school dashboard, school management system template, lms template, responsive, school management template, school fees system" />
+  <meta name="author" content="skaimount" />
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <link href="temps/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <script type="text/javascript" src="temp/assets/js/jquery/jquery.min.js"></script>
+
+  <script>
+    // This code runs immediately without waiting for the DOM to be fully loaded
+    function includeCSS(path) {
+      const link = document.createElement('link');
+      link.href = path;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+  
+    function includeScript(src) {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  
+    function applyStylesAndScriptsForPath(path) {
+      if (path === '/' || path === '/auth/login' || path === '/acc/setup-account') {
+        document.body.setAttribute('data-topbar', 'dark');
+        document.body.setAttribute('data-layout', 'horizontal');
+        document.body.setAttribute('data-layout-size', 'boxed');
+  
+        includeCSS("/temps/assets/css/bootstrap.min.css");
+        includeCSS("/temps/assets/css/icons.min.css");
+        includeCSS("/temps/assets/css/app.min.css");
+        includeCSS("/src/assets/css/auth.css");
+  
+        includeScript("/temps/assets/libs/jquery/jquery.min.js");
+        includeScript("/temps/assets/libs/bootstrap/js/bootstrap.bundle.min.js");
+        includeScript("/temps/assets/libs/metismenu/metisMenu.min.js");
+        includeScript("/temps/assets/libs/simplebar/simplebar.min.js");
+        includeScript("/temps/assets/libs/node-waves/waves.min.js");
+        includeScript("/temps/assets/js/app.js");
+      } else {
+        includeCSS("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+        includeCSS("/temp/assets/pages/waves/css/waves.min.css");
+        includeCSS("/temp/assets/css/bootstrap/css/bootstrap.min.css");
+        includeCSS("/temp/assets/pages/waves/css/waves.min.css");
+        includeCSS("/temp/assets/icon/themify-icons/themify-icons.css");
+        includeCSS("/temp/assets/css/font-awesome-n.min.css");
+        includeCSS("/temp/assets/css/font-awesome.min.css");
+        includeCSS("/temp/assets/css/jquery.mCustomScrollbar.css");
+        includeCSS("/temp/assets/css/style.css");
+        includeCSS("/src/assets/css/custom.css");
+  
+        includeScript("/temp/assets/js/jquery/jquery.min.js");
+        includeScript("/temp/assets/js/jquery-ui/jquery-ui.min.js");
+        includeScript("/temp/assets/js/popper.js/popper.min.js");
+        includeScript("/temp/assets/js/bootstrap/js/bootstrap.min.js");
+        includeScript("/temp/assets/pages/waves/js/waves.min.js");
+        includeScript("/temp/assets/js/jquery-slimscroll/jquery.slimscroll.js");
+        includeScript("/temp/assets/js/jquery.mCustomScrollbar.concat.min.js");
+        includeScript("/temp/assets/js/pcoded.min.js");
+        includeScript("/temp/assets/js/vertical/vertical-layout.min.js");
+        includeScript("/temp/assets/js/script.js");
+        includeScript("https://cdn.jsdelivr.net/npm/sweetalert2@11");
+        includeScript("https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js");
+        includeScript("/src/assets/js/custom.js");
+      }
+  
+      // Initialize Select2 without jQuery
+      const selectElements = document.querySelectorAll('.select2');
+      selectElements.forEach(select => {
+        $(select).select2({
+          width: '100%'
+        });
+      });
+    }
+  
+    // Call initially on script load
+    applyStylesAndScriptsForPath(window.location.pathname);
+  
+    // Intercept route changes (for single-page apps)
+    window.addEventListener('popstate', (event) => {
+      const newPath = window.location.pathname;
+      applyStylesAndScriptsForPath(newPath);
+    });
+  
+  
+  </script>
+  
+
+  <!-- External JS -->
+  <!-- <script type="text/javascript" src="temp/assets/js/bootstrap/js/bootstrap.min.js "></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="temps/assets/libs/select2/js/select2.min.js"></script>
+
+
+  <!-- 0c93a5  light -->
+  <!-- 086975  normal -->
+  <!-- 005265 deep -->
+
+</body>
+
+</html>
