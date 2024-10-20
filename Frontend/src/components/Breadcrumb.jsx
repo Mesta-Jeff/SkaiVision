@@ -2,33 +2,36 @@
 import { useLocation } from 'react-router-dom'
 import Config from '../../helpers/config';
 
-const Breadcrumb = () => {
+// eslint-disable-next-line react/prop-types
+const Breadcrumb = ({ title }) => {
 
   const location = useLocation()
   const pathName = location.pathname;
 
   return (
-    <div className="page-header">
-      <div className="page-block">
-        <div className="row align-items-center">
-          <div className="col-md-8">
-            <div className="page-header-title">
-              <h5 className="m-b-10">{Config[0].currentPage}</h5>
-              <p className="m-b-0 i-text">{Config[0].APP_ALLIASE} a real product from {Config[0].BRAND_NAME}</p>
+    <>
+
+
+      <div className="row">
+        <div className="col-12">
+          <div className="page-title-box">
+            <div className="page-title-right">
+              <ol className="breadcrumb m-0">
+                <li className="breadcrumb-item">
+                  <a href="#"> <i className="fa fa-home" /> </a>
+                </li>
+                <li className="breadcrumb-item"><a href="#!">{pathName == '/' ? 'Dashboard' : pathName}</a>
+                </li>
+              </ol>
             </div>
-          </div>
-          <div className="col-md-4">
-            <ul className="breadcrumb">
-              <li className="breadcrumb-item">
-                <a href="index.html"> <i className="fa fa-home" /> </a>
-              </li>
-              <li className="breadcrumb-item"><a href="#!">{pathName == '/' ? 'Dashboard' : pathName}</a>
-              </li>
-            </ul>
+            <h4 className="page-title">{title}</h4>
+            <small className="page-sub-title text-monospace text-truncate">{Config[0].APP_ALLIASE} a product from {Config[0].BRAND_NAME}</small>
           </div>
         </div>
       </div>
-    </div>
+
+    </>
+
 
 
   )

@@ -1,6 +1,6 @@
 
-// import React from 'react';
-import {Routes,Route} from "react-router-dom";
+import { useEffect } from "react";
+import {Route, Routes, useLocation } from "react-router-dom";
 import RootLayout from './layouts/RootLayout';
 // import Home from './pages/Home';
 import ErrorPage from './pages/ErrorPage';
@@ -188,37 +188,123 @@ import StudentsBursar from './pages/staff/Students_bs';
 
 // Authention things
 import AuthLayout from "./layouts/AuthLayout";
-import AuthLogin from "./pages/auth/Login"
+import AuthLogin from "./pages/auth/Login";
+import AuthRecoverPassword from "./pages/auth/RecoverPassword";
+import AuthVerifyToken from "./pages/auth/VerifyToken";
+import AuthLockScreen from "./pages/auth/LockScreen";
+import AuthLogOut from "./pages/auth/LogOut";
+import AuthChangePassword from "./pages/auth/ChangePassword";
+
+
 import SetUpLayout from "./layouts/SetUpLayout";
 import AuthCreateAccount from "./pages/auth/CreateAccount";
 import AuthSetUpPayment from "./pages/auth/SetupPayment";
+import TempStudentDashboard from "./pages/temp/StudentDashboard";
+import TempAdmissionStatus from "./pages/temp/AdmissionStatus";
+
+
+import VoucherLayout from "./layouts/VoucherLayout";
+import VoucherAdmissionEntrance from "./pages/voucher/AdmissionEntrance";
+import VoucherFormSelection from "./pages/voucher/FormSelection";
+import VoucherVerifyPosting from "./pages/voucher/VerifyPosting";
+import VoucherContinueAdmssion from "./pages/voucher/ContnueAdmssion";
+import VoucherApplicationForms from "./pages/voucher/AppplicationForms";
+import VoucherApplicationPayment from "./pages/voucher/ApplicationPayment";
+import VoucherAdmissionFormsBS from "./pages/voucher/AdmissionFormsBS";
+import VoucherAdmissionFormSHS from "./pages/voucher/AdmissionFormSHS";
+import VoucherAdmissionMessage from "./pages/voucher/AdmissionMessage";
+
+
+import SystemRoles from "./pages/admin/settings/Roles";
+import SystemPermission from "./pages/admin/settings/Permission";
+import SystemSchoolType from "./pages/admin/settings/SchoolType";
+import SystemSchoolStatus from "./pages/admin/settings/SchoolStatus";
+import SystemCountry from "./pages/admin/settings/Country";
+import SystemRegion from "./pages/admin/settings/Region";
+import SystemDistrict from "./pages/admin/settings/District";
+import SystemSchool from "./pages/admin/settings/School";
+import SystemClass from "./pages/admin/settings/Class";
+import SystemAccreditationBody from "./pages/admin/settings/AccreditationBody";
+import SystemPackages from "./pages/admin/settings/Packages";
+import SystemRelationship from "./pages/admin/settings/Relationship";
+import SystemEthnicity from "./pages/admin/settings/Ethnicity";
+import SystemReligion from "./pages/admin/settings/Religion";
 
 
 const App = () => {
+
+  const location = useLocation();
+
+  // Define the routes that should have a horizontal layout
+  const horizontalRoutes = [
+    "/acc/setup-account",
+    "/temp/applicant-dashboard",
+    "/temp/admission-status",
+    "/temp/change-password"
+  ];
+
+  // Dynamically update the body attribute based on the route
+  useEffect(() => {
+    if (horizontalRoutes.includes(location.pathname)) {
+      document.body.setAttribute("data-layout", "horizontal");
+    } else {
+      document.body.removeAttribute("data-layout");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+  
+
   return (
 
     <Routes>
 
+
       <Route element={<AuthLayout />}>
+
         {/* Grouped Auth Routes */}
         <Route path="/" element={<AuthLogin />} />
         <Route path="/auth">
           <Route path="login" element={<AuthLogin />} />
           <Route path="reset-password" element={<AuthLogin />} />
+          <Route path="recover-password" element={<AuthRecoverPassword />} />
+          <Route path="verify-token" element={<AuthVerifyToken />} />
+          <Route path="lock-screen" element={<AuthLockScreen />} />
+          <Route path="logout" element={<AuthLogOut />} />      
         </Route>
       </Route>
 
+        {/* SETTING UP ACCOUNT */}
       <Route element={<SetUpLayout />}>
         <Route path="/acc">
           <Route path="setup-account" element={<AuthCreateAccount />} />
           <Route path="make-payment" element={<AuthSetUpPayment />} />
+        </Route>   
+
+        <Route path="/temp">
+          <Route path="applicant-dashboard" element={<TempStudentDashboard />} />
+          <Route path="admission-status" element={<TempAdmissionStatus />} />
+          <Route path="change-password" element={<AuthChangePassword />} />
+        </Route>       
+      </Route>
+
+      {/* ONLINE ADMISSION VOUCHER */}
+      <Route element={<VoucherLayout />}>
+        <Route path="/school">
+          <Route path="find-admission" element={<VoucherAdmissionEntrance />} />
+          <Route path="selection" element={<VoucherFormSelection />} />
+          <Route path="verify-posting" element={<VoucherVerifyPosting />} />
+          <Route path="continue-admission" element={<VoucherContinueAdmssion />} />
+          <Route path="application-forms" element={<VoucherApplicationForms />} />
+          <Route path="purchase-forms" element={<VoucherApplicationPayment />} />
+          <Route path="admission-basic" element={<VoucherAdmissionFormsBS />} />
+          <Route path="admission-secondary" element={<VoucherAdmissionFormSHS />} />
+          <Route path="admission-message" element={<VoucherAdmissionMessage />} />
         </Route>       
       </Route>
 
 
       <Route element={<RootLayout />}>
 
-        
         {/* Fallback Route */}
         <Route path="*" element={<ErrorPage />} />
 
@@ -440,6 +526,24 @@ const App = () => {
           <Route path="students" element={<StudentsBursar />} />
         </Route>
 
+        {/* System Settings */}
+        <Route path="/settings">
+          <Route path="system-roles" element={<SystemRoles />} />
+          <Route path="system-permission" element={<SystemPermission />} />
+          <Route path="system-school_type" element={<SystemSchoolType />} />
+          <Route path="system-school_status" element={<SystemSchoolStatus />} />
+          <Route path="system-country" element={<SystemCountry />} />
+          <Route path="system-region" element={<SystemRegion />} />
+          <Route path="system-district" element={<SystemDistrict />} />
+          <Route path="system-institution" element={<SystemSchool />} />
+          <Route path="system-class" element={<SystemClass />} />
+          <Route path="system-accreditation_body" element={<SystemAccreditationBody />} />       
+          <Route path="system-relationship" element={<SystemRelationship />} />
+          <Route path="system-ethnicity" element={<SystemEthnicity />} />
+          <Route path="system-religion" element={<SystemReligion />} />
+
+          <Route path="app-package" element={<SystemPackages />} />
+        </Route>
 
       </Route>
       

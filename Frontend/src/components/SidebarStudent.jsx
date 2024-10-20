@@ -1,208 +1,166 @@
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Config from '../../helpers/config';
 
 const SidebarStudent = () => {
+  const [activeSection, setActiveSection] = useState(null);
 
   useEffect(() => {
-    // jQuery to handle Bootstrap collapse behavior
-    const handleCollapse = () => {
-      const collapses = document.querySelectorAll('.collapse');
-
-      collapses.forEach((collapse) => {
-        collapse.addEventListener('show.bs.collapse', () => {
-          collapses.forEach((el) => {
-            if (el !== collapse && el.classList.contains('show')) {
-              const bsCollapse = new bootstrap.Collapse(el, {
-                toggle: false
-              });
-              bsCollapse.hide();
-            }
-          });
-        });
-      });
+    // Listen for URL hash changes
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      setActiveSection(hash);
     };
 
-    handleCollapse();
+    // Initialize the hash on mount
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+
   }, []);
 
+
   return (
-    <nav className="pcoded-navbar">
-      <div className="sidebar_toggle">
-        <a href="#"><i className="icon-close icons" /></a>
+    <div className="left-side-menu skai-navbar">
+      <div className="side-logo">
+        <img src="/temp/assets/images/logo.png" height={25} alt="Logo" />
+        <h5 className="school-aliase">{Config[0].SCHOOL_ALLIASE}</h5>
       </div>
-      <div className="pcoded-inner-navbar main-menu">
-        <div className>
-          <div className="main-menu-header">
-            <img className="img-80 img-radius" src="/temp/assets/images/sv-logo.png" alt="User" />
-            <div className="user-details">
-              <span id="more-details">{Config[0].SCHOOL_ALLIASE}</span>
+      <div className="slimscroll-menu">
+
+        <div className="card-box shadow-none">
+          <ul className="nav nav-tabs tabs-bordered nav-justified" style={{marginLeft: -15}}>
+            <li className="nav-item">
+              <a href="#home-b2" data-toggle="tab" aria-expanded="false" className="nav-link active">
+                <span className="d-block d-sm-none"><i className="mdi mdi-home-variant" /></span>
+                <span className="d-none d-sm-block">Home</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="#profile-b2" data-toggle="tab" aria-expanded="true" className="nav-link">
+                <span className="d-block d-sm-none"><i className="mdi mdi-email-outline" /></span>
+                <span className="d-none d-sm-block">All Chats</span>
+              </a>
+            </li>
+
+          </ul>
+          <div className="tab-content">
+            <div className="tab-pane active" id="home-b2">
+
+              <div id="sidebar-menu" style={{ marginLeft: -30, marginRight: -15 }}>
+                <ul className="metismenu" id="side-menu">
+                  <li className="menu-title">Navigation</li>
+
+                  <li className={activeSection === 'ps' ? 'mm-active' : ''}>
+                    <a className="anchor" href="#ps">
+                      <i className="fe-airplay" />
+                      <span className="badge badge-success badge-pill float-right">Controls</span>
+                      <span> Personal</span>
+                    </a>
+                    <ul className={`nav-second-level nav-control ${activeSection === 'ps' ? 'mm-show' : 'mm-collapse'}`} aria-expanded={activeSection === 'ps'}>
+                      <li><Link to="/student/dashboard">Dashboard</Link></li>
+                      <li><Link to="/student/profile">Profile</Link></li>
+                      <li><Link to="/student/logs">Logs</Link></li>
+                      <li><Link to="/student/tickets">Tickets</Link></li>
+                      <li><Link to="/student/change-password">Change Password</Link></li>
+                    </ul>
+                  </li>
+    
+                  <li className="menu-title">Elements</li>
+
+                  <li className={activeSection === 'gen' ? 'mm-active' : ''}>
+                    <a className="anchor" href="#gen">
+                      <i className="mdi mdi-sort-ascending " />
+                      <span> General </span>
+                      <span className="menu-arrow" />
+                    </a>
+                    <ul className={`nav-second-level nav-control ${activeSection === 'gen' ? 'mm-show' : 'mm-collapse'}`} aria-expanded={activeSection === 'gen'}>
+                      <li><Link to="/student/settings">Settings</Link></li>
+                      <li><Link to="/student/notifications">Notifications</Link></li>
+                      <li><Link to="/student/support">Support</Link></li>
+                      <li><Link to="/student/community-forum">Community Forum</Link></li>
+                      <li><Link to="/student/private-forum">Private Forum</Link></li>
+                      <li><Link to="/student/exeat">Exeat</Link></li>
+
+                    </ul>
+                  </li>
+                  <li className="line-border" />
+
+                  <li className={activeSection === 'aca' ? 'mm-active' : ''}>
+                    <a className="anchor" href="#aca">
+                      <i className="mdi mdi-account-network " />
+                      <span> Academics </span>
+                      <span className="menu-arrow" />
+                    </a>
+                    <ul className={`nav-second-level nav-control ${activeSection === 'aca' ? 'mm-show' : 'mm-collapse'}`} aria-expanded={activeSection === 'aca'}>
+                      <li><Link to="/student/result">Result</Link></li>
+                      <li><Link to="/student/transcript">Transcript</Link></li>
+                      <li><Link to="/student/child-transcript">Child Transcript</Link></li>
+                      <li><Link to="/student/child-courses">Child Courses</Link></li>
+                      <li><Link to="/student/child-information">Child Information</Link></li>
+
+                    </ul>
+                  </li>
+                  <li className="line-border" />
+
+                  <li className={activeSection === 'fs' ? 'mm-active' : ''}>
+                    <a className="anchor" href="#fs">
+                      <i className="mdi mdi-file-tree" />
+                      <span> Fees Management </span>
+                      <span className="menu-arrow" />
+                    </a>
+                    <ul className={`nav-second-level nav-control ${activeSection === 'fs' ? 'mm-show' : 'mm-collapse'}`} aria-expanded={activeSection === 'fs'}>
+                      <li><Link to="/student/fees">Fees</Link></li>
+                      <li><Link to="/student/payment-history">Payment History</Link></li>
+                      <li><Link to="/student/account-statement">Account Statement</Link></li>
+                      <li><Link to="/student/payment">Payment</Link></li>
+                      <li><Link to="/student/child-fees">Child Fees</Link></li>
+
+                    </ul>
+                  </li>
+                  <li className="line-border" />
+
+                </ul>
+              </div>
+
+
             </div>
+            <div className="tab-pane" id="profile-b2">
+              <a href='#' className="row d-flex align-items-center platforms">
+                <div>
+                  <img src="/temp/assets/images/logo.png" alt="Image" className="img-fluid platform-img" />
+                </div>
+                <div className="col text-truncate">
+                  <h6 className="mb-0">Your Title</h6>
+                  <small className='text-muted'>Actual message here</small>
+                </div>
+                <div className="col-auto">
+                  <span className="badge bg-info">0</span>
+                </div>
+              </a>
+              <a href='#' className="row d-flex align-items-center platforms">
+                <div>
+                  <img src="/temp/assets/images/logo.png" alt="Image" className="img-fluid platform-img" />
+                </div>
+                <div className="col text-truncate">
+                  <h6 className="mb-0">Your Title</h6>
+                  <small className='text-muted'>Actual message here</small>
+                </div>
+                <div className="col-auto">
+                  <span className="badge bg-info">0</span>
+                </div>
+              </a>
+            </div>
+
           </div>
         </div>
-        <div className="p-15 p-b-0"> </div>
-        {/* <div className="p-15 p-b-0"></div> */}
 
-        <div className="pcoded-navigation-label">Navigation</div>
-        <ul className="pcoded-item pcoded-left-item">
-          <li className="active">
-            <Link to="/student/dashboard" className="waves-effect waves-dark">
-              <span className="pcoded-micon"><i className="ti-home" /><b>D</b></span>
-              <span className="pcoded-mtext">Home</span>
-              <span className="pcoded-mcaret" />
-            </Link>
-          </li>
-        </ul>
-
-        {/* Account Routes */}
-        <div className="pcoded-navigation-label">Account</div>
-        <ul className="navbar-nav" role="tabpanel">
-          <li className="nav-item">
-            <a className="nav-link anchors" href="#acs" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="acs" >
-              <i className="ti-user" />
-              <span>Account</span>
-            </a>
-            <div className="collapse" id="acs">
-              <ul className="nav flex-column">
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/dashboard">Dashboard</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/profile">Profile</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/logs">Logs</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/tickets">Tickets</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/change-password">Change Password</Link>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="line-border"></li>
-        </ul>
-
-        {/* Settings Routes */}
-        <ul className="navbar-nav" role="tabpanel">
-          <li className="nav-item">
-            <a className="nav-link anchors" href="#gen" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="gen" >
-              <i className="ti-menu-alt" />
-              <span>General</span>
-            </a>
-            <div className="collapse" id="gen">
-              <ul className="nav flex-column">
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/settings">Settings</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/notifications">Notifications</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/support">Support</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/community-forum">Community Forum</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/private-forum">Private Forum</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/exeat">Exeat</Link>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="line-border"></li>
-        </ul>
-
-        {/* Academics Routes */}
-        <div className="pcoded-navigation-label">Academic</div>
-        <ul className="navbar-nav" role="tabpanel">
-          <li className="nav-item">
-            <a className="nav-link anchors" href="#aci" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="aci" >
-              <i className="ti-book" />
-              <span>Academic</span>
-            </a>
-            <div className="collapse" id="aci">
-              <ul className="nav flex-column">
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/result">Result</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/transcript">Transcript</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/child-transcript">Child Transcript</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/child-courses">Child Courses</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/child-information">Child Information</Link>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="line-border"></li>
-        </ul>
-
-        {/* Fees Routes */}
-        <div className="pcoded-navigation-label">Fees Management</div>
-        <ul className="navbar-nav" role="tabpanel">
-          <li className="nav-item">
-            <a className="nav-link anchors" href="#fs" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="fs" >
-              <i className="ti-wallet" />
-              <span>Fees Element</span>
-            </a>
-            <div className="collapse" id="fs">
-              <ul className="nav flex-column">
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/fees">Fees</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/payment-history">Payment History</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/account-statement">Account Statement</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/payment">Payment</Link>
-                </li>
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/student/child-fees">Child Fees</Link>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="line-border"></li>
-        </ul>
-
-        {/* <ul className="navbar-nav" role="tabpanel">
-          <li className="nav-item">
-            <a className="nav-link anchors" href="#drip1" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="drip1" >
-              <i className="ti-layout-accordion-list" />
-              <span>Analytics</span>
-            </a>
-            <div className="collapse" id="drip1">
-              <ul className="nav flex-column">
-                <li className="inner-item">
-                  <Link className="nav-link inner-text" to="/hm/dashboard">Dashboard</Link>
-                </li>
-                <li className="inner-item">
-                  <Link to="/hm/house-dues" className="nav-link inner-text">Customers</Link>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="line-border"></li>
-        </ul> */}
-
+        <div className="clearfix" />
       </div>
-    </nav>
+    </div>
   );
 };
 

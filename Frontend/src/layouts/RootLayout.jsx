@@ -1,103 +1,79 @@
-// import React from 'react'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom'
-import Preloader from '../components/Preloader'
 import TopNavbar from '../components/TopNavbar'
 import Breadcrumb from '../components/Breadcrumb'
 import SidebarAdmin from '../components/SidebarAdmin'
 import Footer from '../components/Footer'
 import SidebarStudent from '../components/SidebarStudent'
 import SidebarStaff from '../components/SidebarStaff'
-
+import RightDialogue from '../components/RightDialogue';
+import ChatBoat from '../components/ChatBoat';
+import SidebarManagement from '../components/SidebarManagement';
 
 const RootLayout = () => {
 
+  const [isRightBarVisible, setIsRightBarVisible] = useState(false); 
+  const [pageTitle, setPageTitle] = useState('Dashboard');
 
-
-  const [userRole, setUserRole] = useState(null);
-
-  useEffect(() => {
-    // Retrieve user role from session storage or API
-    const storedUserRole = sessionStorage.getItem('userRole');
-    if (storedUserRole) {
-      setUserRole(storedUserRole);
-    } else {
-      // Fetch user role from API if not found in session storage
-      // ...
-    }
-  }, []);
-
-  const renderSidebar = () => {
-    switch (userRole) {
-      case 'admin':
-      case 'developer':
-        return <SidebarAdmin />;
-      case 'student':
-      case 'parent':
-        return <SidebarStudent />;
-      case 'normal staff':
-      case 'hod':
-      case 'house master':
-        return <SidebarStaff />;
-      default:
-        return null;
-    }
+ 
+  const toggleRightBar = () => {
+    setIsRightBarVisible(!isRightBarVisible);
   };
+
+  const [isChatBoatVisible, setIsChatBoatVisible] = useState(false);
+
+  const toggleChatBoat = () => {
+    setIsChatBoatVisible(!isChatBoatVisible);
+  };
+
 
   return (
     <>
-      <div>
-        {/* Pre-loader start */}
-        <Preloader />
+      <div id="wrapper">
 
-        <div id="pcoded" className="pcoded">
-          <div className="pcoded-overlay-box" />
-          <div className="pcoded-container navbar-wrapper">
+        <TopNavbar />
 
-            {/* Topbar */}
-            <TopNavbar />
+        {/* Sidebar */}
+        {/* <SidebarStaff /> */}
+        {/* {<SidebarStudent />} */}
+        {/* {<SidebarAdmin />} */}
+        <SidebarManagement />
 
-            <div className="pcoded-main-container">
-              <div className="pcoded-wrapper">
 
-                {/* Sidebar*/}
-                {/* <SidebarAdmin /> */}
-                {/* <SidebarStudent /> */}
-                <SidebarStaff />
-
-                {/* {renderSidebar()} */}
-
-                <div className="pcoded-content">
-
-                  {/* Page-header start */}
-                  <Breadcrumb />
-
-                  <div className="pcoded-inner-content">
-                    {/* Main-body start */}
-                    <div className="main-body">
-                      <div className="page-wrapper">
-                     
-                        <div className="page-body">
-
-                          <Outlet />
-                          
-                          <Footer />
-
-                        </div>
-
-                      </div>
-                      <div id="styleSelector"> </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div className="content-page">
+          <div className="content">
+            <div className="container-fluid">
+            <Breadcrumb title={pageTitle} />
+              <Outlet context={{ setPageTitle }} />
             </div>
           </div>
+
+          <Footer />
         </div>
       </div>
+
+      {/* RightDialogue with visibility controlled */}
+      <RightDialogue visible={isRightBarVisible} onClose={toggleRightBar} />
+
+      {/* Right bar overlay*/}
+      <div className="rightbar-overlay" onClick={toggleRightBar} style={{ display: isRightBarVisible ? 'block' : 'none' }}></div>
+
+      {/* Button to trigger the right sidebar */}
+      <a href="#" className="right-bar-toggle demos-show-btn" onClick={toggleRightBar}>
+        <i className="mdi mdi-settings-outline mdi-spin" />
+      </a>
+
+      {/* Live Chat Button */}
+      <a href="#" className="right-bar-toggle demos-boat-btn" onClick={toggleChatBoat}>
+          <i className="mdi mdi-chat" /> &nbsp;Live Support
+        </a>
+
+        {/* ChatBoat component with visibility toggle */}
+        <ChatBoat visible={isChatBoatVisible} onClose={toggleChatBoat} />
+
+
     </>
+  );
+};
 
-  )
-}
-
-export default RootLayout
+export default RootLayout;
